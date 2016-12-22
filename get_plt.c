@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 02:08:51 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/19 19:22:15 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/12/22 22:04:53 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void			get_size(char *buff, t_plateau *plt)
 
 t_plateau		*get_plt(t_plateau **p, char *buff, char pl)
 {
-	if (!udt)
+	if (*p == NULL)
 	{
 		if ((*p = (t_plateau*)malloc(sizeof(t_plateau))) == NULL)
 			return (NULL);
 		(*p)->pl = pl;
-		get_size(buff, *p);
+		get_size(buff + 8, *p);
 		(*p)->map = NULL;
 	}
 	else

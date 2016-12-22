@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 04:16:41 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/18 04:36:27 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/12/22 22:28:30 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ int			is_skinpnt(t_coord pnt, t_plateau *plt)
 	sz = plt->size;
 	map = plt->map;
 	if (pnt.y + 1 < sz.y && is_ennemi(map[pnt.y + 1][pnt.x], pl))
-		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10))
+		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10));
 	if (pnt.y - 1 >= 0 && is_ennemi(map[pnt.y - 1][pnt.x], pl))
-		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10))
+		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10));
 	if (pnt.x + 1 < sz.x && is_ennemi(map[pnt.y][pnt.x + 1], pl))
-		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10))
+		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10));
 	if (pnt.x - 1 >= 0 && is_ennemi(map[pnt.y][pnt.x - 1], pl))
-		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10))
+		return (is_surface(pnt, *plt, MAX(sz.x, sz.y) / 10));
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/03 18:53:21 by rvan-der          #+#    #+#              #
-#    Updated: 2016/11/06 17:53:21 by rvan-der         ###   ########.fr        #
+#    Updated: 2016/12/22 21:59:43 by rvan-der         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,6 +14,7 @@ NAME = libft.a
 CC = gcc
 CFLAG = -c -Wall -Werror -Wextra
 SRC =	ft_memcmp.c \
+		get_next_line.c \
 		ft_memcat.c \
 		ft_realloc.c \
 		ft_putstr_fd.c \

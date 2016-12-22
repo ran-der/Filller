@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 02:56:49 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/17 01:56:55 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/12/22 18:38:28 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void			find_offset(t_piece *ret, char **piece, int size)
 			{
 				if (!yfound)
 				{
-					ret->y_offset = y;
+					(ret->offset).y = y;
 					xmin = x;
 					yfound = 1;
 				}
 				else
-					xmin = (x < xmin ? : x : xmin);
+					xmin = (x < xmin ? x : xmin);
 			}
 		}
 	}
@@ -97,16 +97,16 @@ t_piece			read_piece(void)
 	while (ft_isdigit(*(buff + 6)))
 		i++;
 	(ret.size).x = ft_atoi(buff + i);
-	piece = (char**)malloc(sizeof(char*) * size);
+	piece = (char**)malloc(sizeof(char*) * (ret.size).y);
 	free(buff);
 	i = -1;
-	while (++i < size)
+	while (++i < (ret.size).y)
 	{
 		get_next_line(0, &buff);
 		piece[i] = buff;
 	}
-	find_offset(&ret, piece, size);
-	ret.crd = get_pce_crd(ret.x_offset, ret.y_offset, piece, size);
+	find_offset(&ret, piece, (ret.size).y);
+	ret.crd = get_pce_crd((ret.offset).x, (ret.offset).y, piece, (ret.size).y);
 	get_poles(&ret);
 	delete_map(piece, (ret.size).y);
 	return (ret);

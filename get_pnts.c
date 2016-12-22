@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_skin.c                                         :+:      :+:    :+:   */
+/*   get_pnts.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 03:09:10 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/19 19:22:25 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/12/22 22:07:26 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ int			is_atwall(t_coord pnt, t_plateau p)
 	{
 		map = p.map;
 		if ((!pnt.x || pnt.x == xsize) && (!pnt.y || pnt.y == ysize))
-			if (is_ennemi(map[pnt.y + (!pnt.y ? 1 : -1)][pnt.x]) || \
-				is_ennemi(map[pnt.y][pnt.x + (!pnt.x ? 1 : -1)]))
+			if (is_ennemi(map[pnt.y + (!pnt.y ? 1 : -1)][pnt.x], p.pl) || \
+				is_ennemi(map[pnt.y][pnt.x + (!pnt.x ? 1 : -1)], p.pl))
 				return (1);
 		if (!pnt.x || pnt.x == xsize)
-			if ((pnt.y < ysize - 1 && is_ennemi(map[pnt.y + 1][pnt.x])) || \
-				(pnt.y > 0 && is_ennemi(map[pnt.y - 1][pnt.x])))
+			if ((pnt.y < ysize - 1 && is_ennemi(map[pnt.y + 1][pnt.x], p.pl)) \
+					|| (pnt.y > 0 && is_ennemi(map[pnt.y - 1][pnt.x], p.pl)))
 				return (1);
 		if (!pnt.y || pnt.y == ysize)
-			if ((pnt.x < xsize - 1 && is_ennemi(map[pnt.y][pnt.x + 1])) || \
-				(pnt.x > 0 && is_ennemi(map[pnt.y][pnt.x - 1])))
+			if ((pnt.x < xsize - 1 && is_ennemi(map[pnt.y][pnt.x + 1], p.pl)) \
+					|| (pnt.x > 0 && is_ennemi(map[pnt.y][pnt.x - 1], p.pl)))
 				return (1);
 	}
 	return (0);
@@ -76,6 +76,7 @@ void		set_ocp_marks(t_skin *skin, t_plateau p)
 	}
 }
 
+/*
 void		find_edges(t_skin **skin, t_plateau *p)
 {
 	t_skin		*tmp;
@@ -92,12 +93,12 @@ void		find_edges(t_skin **skin, t_plateau *p)
 		(p->edge)[1] = ((p->edge)[1])->next;
 		max++;
 	}
+*/
 
-
-void		get_skin(t_plateau *plt)
+void		get_pnts(t_plateau *plt)
 {
-	t_skin		*tmp;
-	t_chunk		*pts;
+	//t_skin		*tmp;
+	t_skin		*pts;
 	t_coord		pnt;
 	
 	pts = NULL;
@@ -107,10 +108,11 @@ void		get_skin(t_plateau *plt)
 		pnt.x = -1;
 		while ((plt->map)[pnt.y][++(pnt.x)] != '\0')
 			if (is_skinpnt(pnt, plt))
-				skin_pushback(&pts, pnt);
+				skin_pushback(&pts, pnt, *plt);
 	}
+	
 	set_ocp_marks(pts, *plt);
-	tmp = skin;
-	find_edges(skin, plt)
-	plt->skin = skin;
+	/*tmp = skin;
+	find_edges(skin, plt)*/
+	plt->skin = pts;
 }

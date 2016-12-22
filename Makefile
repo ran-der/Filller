@@ -6,7 +6,7 @@
 #    By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/11 14:44:06 by rvan-der          #+#    #+#              #
-#    Updated: 2016/12/11 16:46:28 by rvan-der         ###   ########.fr        #
+#    Updated: 2016/12/22 22:12:17 by rvan-der         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,14 @@ CC = gcc
 CFLAG = -Wall -Werror -Wextra
 SRC = main_filler.c \
 	  read.c \
-	  get_skin.c
+	  get_pnts.c \
 	  get_plt.c \
 	  distance.c \
-	  crdlist.c 
+	  crdlist.c \
+	  delete_ft \
+	  dir_tools.c \
+	  skinlist.c \
+	  skin_tests.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/03 18:55:07 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/06 18:23:20 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/12/22 21:54:07 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "get_next_line.h"
 
 typedef struct		s_list
 {

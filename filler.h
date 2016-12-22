@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 06:22:29 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 11:56:54 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/12/22 22:28:55 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ typedef struct			s_args
 	int					dl;
 	int					limc;
 	int					liml;
-	int					lastc;
+}						t_args;
 
 
 typedef struct			s_plateau
 {
 	t_coord				size;
-	t_skin				*skins;
+	t_skin				*skin;
 	t_skin				*edge[2];
 	t_coord				*epos;
 	t_coord				*pos;
@@ -108,7 +108,7 @@ typedef struct			s_plateau
 	char				pl;
 }						t_plateau;
 
-t_plateau				*get_plt(t_plateau **p, char *buff, char pl, int udt);
+t_plateau				*get_plt(t_plateau **p, char *buff, char pl);
 t_piece					read_piece(void);
 char					**read_map(t_coord size);
 void					get_skin(t_plateau *plt);
@@ -117,9 +117,20 @@ double					dmin_to_grp(t_coord pnt, t_coord *grp);
 int						is_skinpnt(t_coord pnt, t_plateau *plt);
 int						is_ennemi(char c, char pl);
 void					delete_crdlist(t_coord *list);
+void					delete_skin(t_skin *list);
+void					delete_map(char **map, int size);
+void					delete_plt(t_plateau **plt);
 t_coord					*new_crdlist(int x, int y);
 void					crdlist_pushback(t_coord **list, t_coord *elem);
 void					delete_map(char **map, int size);
-void					delete_skin(t_skin *skin);
+t_dir					invert_dir(t_dir dir);
+t_dir					get_ldir(t_skin pnt, t_dir cdir);
+t_dir					get_cdir(t_skin pnt, t_coord size);
+void					skin_pushback(t_skin **skin, t_coord pnt, \
+														t_plateau plt);
+void					skin_pushfront(t_skin **skin, t_coord pnt, \
+														t_plateau plt);
+t_skin					*new_skin_pnt(t_coord pnt, t_plateau plt);
+
 
 #endif
