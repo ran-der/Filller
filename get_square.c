@@ -26,11 +26,10 @@ void			get_square2(t_square *sqr, t_plateau p)
 		x = (p.size).x - 1;
 		while (x != -1 && !is_ennemi((p.map)[y][x], p.pl))
 			x--;
-		if (!found && x != -1)
+		if (!found && x != -1 && (found = 1))
 			sqr->s = y;
-		else if (x != -1 && x > sqr->e)
+		if (x > sqr->e)
 			sqr->e = x;
-		found = (!found && x == -1 ? 0 : 1);
 	}
 }
 
@@ -49,11 +48,10 @@ t_square		get_square(t_plateau p)
 		x = 0;
 		while (x < (p.size).x && !is_ennemi((p.map)[y][x], p.pl))
 			x++;
-		if (!found && x != (p.size).x)
+		if (!found && x != (p.size).x && (found = 1))
 			sqr.n = y;
-		else if (x != (p.size).x && x < sqr.w)
+		if (x < sqr.w)
 			sqr.w = x;
-		found = (!found && x == (p.size).x ? 0 : 1);
 	}
 	get_square2(&sqr, p);
 	return (sqr);

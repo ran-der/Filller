@@ -76,18 +76,20 @@ double		dmin_to_skin(t_coord pnt, t_skin *grp)
 {
 	double		dmin;
 	double		tmp;
+	t_skin		*tmps;
 
 	dmin = 0;
-	if (grp != NULL)
+	if ((tmps = grp) != NULL)
 	{
-		dmin = distance_2d(grp->crd, pnt);
-		grp = grp->next;
-		while (grp != NULL && (tmp = distance_2d(grp->crd, pnt)))
+		dmin = distance_2d(tmps->crd, pnt);
+		tmps = tmps->next;
+		while (tmps != NULL && tmps != grp && \
+				(tmp = distance_2d(grp->crd, pnt)))
 		{
 			dmin = (tmp < dmin ? tmp : dmin);
-			grp = grp->next;
+			tmps = tmps->next;
 		}
-		dmin = (grp != NULL ? 0 : dmin);
+		dmin = (tmps != NULL && tmps != grp? 0 : dmin);
 	}
 	return (dmin);
 }

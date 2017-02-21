@@ -63,18 +63,29 @@ t_skin		get_target(t_plateau p, t_ennemi e, int *ctr, int *turn)
 	t_skin		center;
 
 	if (e.skin == NULL)
-		return (fill_area(p));
-	if (!(*ctr) && e.mark == far && !ctr_occupied(p) && \
-		dmin_to_coord(p.ctr, p.pos) > dmin_to_skin(p.ctr, e.skin))
 	{
+		//printf("fill\n");
+		return (fill_area(p));
+	}
+	if (!(*ctr) && e.mark == far && !ctr_occupied(p) && \
+		 dmin_to_coord(p.ctr, p.pos) > dmin_to_skin(p.ctr, e.skin))
+	{
+		//printf("ctr\n");
 		center.crd = p.ctr;
 		return (center);
 	}
 	*ctr = 1;
 	if (e.mark == far)
+	{
+		//printf("counter\n");
 		return (counter_ennemi(e));
+	}
 	if (e.mark == ocp)
+	{
+		//printf("fill\n");
 		return (fill_area(p));
+	}
+	//printf("surr\n");
 	return (surround_ennemi(p, e, turn));
 }
 
@@ -107,6 +118,15 @@ t_coord			find_closest(t_coord *pnt, t_coord ref)
 	return (ret);
 }
 
+t_coord			surrender(void)
+{
+	t_coord		ret;
+
+	ret.x = -1000;
+	ret.y = -1000;
+	return (ret);
+}
+
 t_coord			player(t_plateau *p, t_ennemi *e)
 {
 	t_coord		ret;
@@ -115,6 +135,7 @@ t_coord			player(t_plateau *p, t_ennemi *e)
 	static int	ctr = 0;
 	static int	turn = 0;
 
+	valid = NULL;
 	if ((p->pce).crd != NULL && p->pos != NULL)
 	{
 		target = get_target(*p, *e, &ctr, &turn);
@@ -127,10 +148,7 @@ t_coord			player(t_plateau *p, t_ennemi *e)
 		ft_printf("%d %d\n", ret.x, ret.y);
 	}
 	else
-	{
-		ret.x = -1000;
-		ft_printf("%d %d\n", ret.x, ret.y);
-	}
+		return (surrender());
 	if (e->skin != NULL)
 		((e->skin)->prev)->next = NULL;
 	return (ret);

@@ -26,10 +26,11 @@ all: $(NAME)
 
 libraries:
 	make -C libft
+	mv libft/libft.a ./libft.a
 
-$(NAME): $(SRC)
-	$(CC) $(CFLAG) -c $(SRC)
-	$(CC) -Llibft -lft $(OBJ) -o $(NAME)
+$(NAME): $(SRC) libraries
+	#$(CC) $(CFLAG) -c $(SRC)
+	$(CC) $(SRC) -L. -lft -o $(NAME)
 
 clean:
 	make -C libft clean

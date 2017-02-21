@@ -104,8 +104,8 @@ int			main(void)
 			plateau = get_plt(&plateau, buff, pl);
 			ennemi = get_ennemi(&ennemi, plateau);
 			//((ennemi->skin)->prev)->next = NULL;
-		//	print_map_skin(plateau->map, plateau->size, *ennemi);
-		//	((ennemi->skin)->prev)->next = ennemi->skin;
+			//print_map_skin(plateau->map, plateau->size, *ennemi);
+			//((ennemi->skin)->prev)->next = ennemi->skin;
 			if((player(plateau, ennemi)).x == -1000)
 			{
 				delete_all(&plateau, &ennemi);

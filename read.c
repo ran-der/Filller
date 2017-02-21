@@ -95,6 +95,8 @@ char			**read_map(t_coord size)
 	char		*buff;
 	int			i;
 
+	get_next_line(0, &buff);
+	free(buff);
 	ret = (char**)malloc(sizeof(char*) * size.y);
 	i = -1;
 	while (++i < size.y)

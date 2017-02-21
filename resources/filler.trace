@@ -1,7 +1,6 @@
-seed = 3934
-O: error on input
-players/rvan-der.filler: Segfault at 0
+seed = 5006
 X: error on input
-players/superjeannot.filler won
+players/rvan-der.filler: Segfault at 0
+players/rvan-der.filler won
 Score:
-0AGAINST24
+0AGAINST0

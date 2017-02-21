@@ -35,7 +35,7 @@ void	set_args(t_skin pos, t_plateau p, t_args *ag)
 				!is_ennemi((p.map)[(ag->pnt).y] [(ag->pnt).x + ag->dl], p.pl))
 			((ag->pnt).y)--;
 	}
-	(ag->c) = (pos.dir == N || pos.dir == S ? &((ag->pnt).x) : &((ag->pnt).y));
+	(ag->c) = (pos.dir == N || pos.dir == St ? &((ag->pnt).x) : &((ag->pnt).y));
 	(ag->l) = ((ag->c) == &((ag->pnt).y) ? &((ag->pnt).x) : &((ag->pnt).y));
 }
 
