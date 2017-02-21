@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/03 18:55:07 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 21:54:07 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/20 21:02:31 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "ft_printf.h"
 # include "get_next_line.h"
+# define MAX(a, b) (a >= b ? a : b)
+# define MIN(a, b) (a <= b ? a : b)
+# define ABS(x) (x < 0 ? -x : x)
 
 typedef struct		s_list
 {

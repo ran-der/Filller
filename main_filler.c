@@ -6,11 +6,26 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 19:40:08 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 22:03:12 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/21 17:05:53 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
+#include <fcntl.h>
+#include <unistd.h>
+
+char		*strmark(t_mark m)
+{
+	if (m == ocp)
+		return ("ocp\n");
+	if (m == atwallf)
+		return ("atwallf\n");
+	if (m == atwallo)
+		return ("atwallo\n");
+	if (m == fre)
+		return ("free\n");
+	return ("euhhh..\n");
+}
 
 int			draw_if_skin(int x, int y, t_skin *pts)
 {
@@ -18,12 +33,14 @@ int			draw_if_skin(int x, int y, t_skin *pts)
 	{
 		if ((pts->crd).x == x && (pts->crd).y == y)
 		{
-			if (pts->mark == atwall)
-				write(1, "#", 1);
+			if (pts->mark == atwallf)
+				printf("$");
+			else if (pts->mark == atwallo)
+				printf("#");
 			else if (pts->mark == fre)
-				write(1, "~", 1);
-			else
-				write(1, "@", 1);
+				printf("+");
+			else if (pts->mark == ocp)
+				printf("-");
 			return (0);
 		}
 		pts = pts->next;
@@ -31,46 +48,72 @@ int			draw_if_skin(int x, int y, t_skin *pts)
 	return (1);
 }
 
-void		print_map_skin(char **map, t_skin *pts, int size)
+
+
+void		print_map_skin(char **map, t_coord size, t_ennemi e)
 {
 	int			x;
 	int			y = -1;
 
-	while (++y < size)
+	while (++y < size.y)
 	{
-		x = -1;
-		while (map[y][++x] != '\n')
-			if (draw_if_skin(x, y, pts))
-				write(1, &(map[y][x]), 1);
+		printf("%03i ", y);
+		x = 0;
+		while (x < size.x)
+		{
+			if (draw_if_skin(x, y, e.skin))
+				printf("%c", map[y][x]);
+			x++;
+		}
+		printf("\n");
+	}
+}
+
+
+
+void		print_map(char **map, int size)
+{
+	int		i;
+
+	printf("MAP (size = %i):\n", size);
+	if (map == NULL || *map == NULL)
+		write(1, "NULL\n", 5);
+	else
+	{
+		i = -1;
+		while (++i < size)
+			printf("%03i%s\n", i, map[i]);
 	}
 }
 
 int			main(void)
 {
-	char		*tmp;
-	char		*buf;
+	char		*buff;
 	char		pl;
 	t_plateau	*plateau;
-
+	t_ennemi	*ennemi;
+	
 	plateau = NULL;
-	while (get_next_line(0, &buf))
+	ennemi = NULL;
+	while (get_next_line(0, &buff))
 	{
-		if (!ft_strncmp(buf, "$$$ exec p", 10))
-			pl = (*(buf + 10) == '1' ? 'O' : 'X');
-		else if (!ft_strncmp(buf, "Plateau ", 8))
+		if (!ft_strncmp(buff, "$$$ exec p", 10))
+			pl = (*(buff + 10) == '1' ? 'O' : 'X');
+		else if (!ft_strncmp(buff, "Plateau ", 8))
 		{
-			get_next_line(0, &tmp);
-			free(tmp);
-			plateau = get_plt(&plateau, buf, pl);
-			print_map_skin(plateau->map, plateau->skin, (plateau->size).y);
+			plateau = get_plt(&plateau, buff, pl);
+			ennemi = get_ennemi(&ennemi, plateau);
+			//((ennemi->skin)->prev)->next = NULL;
+		//	print_map_skin(plateau->map, plateau->size, *ennemi);
+		//	((ennemi->skin)->prev)->next = ennemi->skin;
+			if((player(plateau, ennemi)).x == -1000)
+			{
+				delete_all(&plateau, &ennemi);
+				free(buff);
+				return (0);
+			}
 		}
-		else
-		{
-			delete_plt(plateau);
-			free(buf);
-			return (0);
-		}
-		free(buf);
+		free(buff);
 	}
 	return (0);
 }

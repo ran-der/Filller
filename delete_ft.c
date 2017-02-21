@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 18:00:27 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 22:25:21 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/21 15:50:23 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,35 @@ void		delete_map(char **map, int size)
 		while (++i < size)
 			ft_strdel(&(map[i]));
 		free(map);
+		*map = NULL;
+	}
+}
+
+void			delete_elem(int x, int y, t_coord **list)
+{
+	t_coord		*tmp;
+	t_coord		*elem;
+
+	if ((tmp = *list) != NULL)
+	{
+		if (tmp->x == x && tmp->y == y)
+		{
+			*list = tmp->next;
+			free(tmp);
+		}
+		else
+		{
+			while ((elem = tmp->next) != NULL)
+			{
+				if (elem->x == x && elem->y == y)
+				{
+					tmp->next = elem->next;
+					free(elem);
+					break ;
+				}
+				tmp = tmp->next;
+			}
+		}
 	}
 }
 
@@ -43,13 +72,20 @@ void		delete_skin(t_skin *list)
 	}
 }
 
-void		delete_plt(t_plateau **plt)
+void		delete_all(t_plateau **p, t_ennemi **e)
 {
-	delete_skin((*plt)->skin);
-	delete_map((*plt)->map, ((*plt)->size).y);
-	delete_map((*plt)->map, ((*plt)->size).y);
-	delete_crdlist((*plt)->epos);
-	delete_crdlist((*plt)->pos);
-	free(*plt);
-	*plt = NULL;
+	if (*p != NULL)
+	{
+		delete_map((*p)->map, ((*p)->size).y);
+		delete_map((*p)->map, ((*p)->size).y);
+		delete_crdlist((*p)->pos);
+		free(*p);
+		*p = NULL;
+	}
+	if (*e != NULL)
+	{
+		delete_skin((*e)->skin);
+		free(*e);
+		*e = NULL;
+	}
 }

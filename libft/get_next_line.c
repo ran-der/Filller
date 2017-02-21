@@ -6,12 +6,11 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 17:19:17 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 22:00:14 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/20 21:00:50 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "libft.h"
 
 t_file		*find_file(t_file **saved_files, int fd)
 {

@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 02:56:49 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 18:38:28 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/21 12:55:35 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,23 @@ void			find_offset(t_piece *ret, char **piece, int size)
 {
 	int			x;
 	int			y;
-	int			yfound;
-	int			xmin;
+//	int			i;
 
+	(ret->offset).y = -1;
+	(ret->offset).x = -1;
 	y = -1;
-	yfound = 0;
-	while (++y < size)
+	while (++y < size && (ret->offset).x)
 	{
-		x = -1;
-		while (piece[y][++x] != '\0')
+		x = 0;
+		while (piece[y][x] != '\0' && piece[y][x] != 42)
+			x++;
+		if (piece[y][x] == 42 && (ret->offset).y == -1)
 		{
-			if (piece[y][x] == 42)
-			{
-				if (!yfound)
-				{
-					(ret->offset).y = y;
-					xmin = x;
-					yfound = 1;
-				}
-				else
-					xmin = (x < xmin ? x : xmin);
-			}
+			(ret->offset).y = y;
+			(ret->offset).x = x;
 		}
+		else if (piece[y][x] == 42)
+			(ret->offset).x = (x < (ret->offset).x ? x : (ret->offset).x);
 	}
 }
 
@@ -59,29 +54,15 @@ t_coord			*get_pce_crd(int xmin, int ymin, char **piece, int size)
 	return (ret);
 }
 
-void			get_poles(t_piece *ret)
+t_coord			get_size(char *buff)
 {
-	t_coord		*tmp;
-	int			xmax;
-	int			ymax;
+	t_coord		ret;
 
-	tmp = ret->crd;
-	xmax = 0;
-	ymax = 0;
-	while (tmp != NULL)
-	{
-		if (tmp->x > xmax)
-			xmax = tmp->x;
-		if (tmp->y > ymax)
-			ymax = tmp->y;
-		tmp = tmp->next;
-	}
-	(ret->NEpole).x = 0;
-	(ret->NEpole).y = ymax;
-	(ret->NWpole).x = xmax;
-	(ret->NWpole).y = ymax;
-	(ret->SWpole).x = xmax;
-	(ret->SWpole).y = 0;
+	ret.y = ft_atoi(buff);
+	while (ft_isdigit(*(buff)))
+		buff++;
+	ret.x = ft_atoi(buff);
+	return (ret);
 }
 
 t_piece			read_piece(void)
@@ -91,23 +72,19 @@ t_piece			read_piece(void)
 	char		*buff;
 	char		**piece;
 
-	i = 6;
 	get_next_line(0, &buff);
-	(ret.size).y = ft_atoi(buff + 6);
-	while (ft_isdigit(*(buff + 6)))
-		i++;
-	(ret.size).x = ft_atoi(buff + i);
+	ret.size = get_size(buff + 6);
 	piece = (char**)malloc(sizeof(char*) * (ret.size).y);
 	free(buff);
 	i = -1;
 	while (++i < (ret.size).y)
 	{
 		get_next_line(0, &buff);
-		piece[i] = buff;
+		piece[i] = ft_strdup(buff);
+		free(buff);
 	}
 	find_offset(&ret, piece, (ret.size).y);
 	ret.crd = get_pce_crd((ret.offset).x, (ret.offset).y, piece, (ret.size).y);
-	get_poles(&ret);
 	delete_map(piece, (ret.size).y);
 	return (ret);
 }

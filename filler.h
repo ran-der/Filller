@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 06:22:29 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/12/22 22:28:55 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/21 13:02:23 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,120 +17,218 @@
 # include <stdio.h>
 # include <sys/errno.h>
 # define MAX(a, b) (a >= b ? a : b)
+# define MIN(a, b) (a <= b ? a : b)
 # define ABS(x) (x < 0 ? -x : x)
 
-typedef enum			e_dir
+/*
+** enums:
+*/
+
+typedef enum		e_dir
 {
-	NE = 1,
-	NW,
-	SE,
-	SW,
 	N,
-	S,
+	St,
 	E,
-	W
-}						t_dir;
+	W,
+}					t_dir;
 
-typedef enum			e_goal
+typedef enum		e_goal
 {
-	contact = 0,
-	combat,
+	center,
+	contact,
+	surround,
+	clos,
 	fill
-}						t_goal;
+}					t_goal;
 
-typedef enum			e_mark
+typedef enum		e_mark
 {
-	atwallo,
-	atwall,
+	far,
 	fre,
 	ocp,
-	eocp
-}						t_mark;
-
-typedef struct			s_coord
-{
-	int					x;
-	int					y;
-	struct s_coord		*next;
-}						t_coord;
-
-typedef struct			s_skin
-{
-	t_dir				dir;
-	t_mark				mark;
-	t_coord				crd;
-	struct s_skin		*prev;
-	struct s_skin		*next;
-}						t_skin;
-
-typedef struct			s_piece
-{
-	t_coord				size;
-	t_coord				NEpole;
-	t_coord				NWpole;
-	t_coord				SWpole;
-	t_coord				offset;
-	t_coord				*crd;
-}						t_piece;
+	atwallf,
+	atwallo
+}					t_mark;
 
 /*
- * The relative coordinates of the upper left corner (SE pole) always are
- * x = 0 , y = 0 since it's the refference for the relative coordinates 
- * of the piece.
- * From this perspective, the piece's mass points approximatively
- * towards SE (down-right).
- * The relative coordinates of the other corners (or poles) depend on it's size.
- */
+** end enums
+*/
 
-typedef struct			s_args
+/*
+** structures:
+*/
+
+typedef struct		s_coord
 {
-	int					x;
-	int					y;
-	int					*c;
-	int					*l;
-	int					dc;
-	int					dl;
-	int					limc;
-	int					liml;
-}						t_args;
+	int				x;
+	int				y;
+	struct s_coord	*next;
+}					t_coord;
 
-
-typedef struct			s_plateau
+typedef struct		s_args
 {
-	t_coord				size;
-	t_skin				*skin;
-	t_skin				*edge[2];
-	t_coord				*epos;
-	t_coord				*pos;
-	t_piece				pce;
-	char				**pmap;
-	char				**map;
-	char				pl;
-}						t_plateau;
+	int				*c;
+	int				*l;
+	int				dl;
+	int				limc;
+	int				liml;
+	t_coord			pnt;
+}					t_args;
 
-t_plateau				*get_plt(t_plateau **p, char *buff, char pl);
-t_piece					read_piece(void);
-char					**read_map(t_coord size);
-void					get_skin(t_plateau *plt);
-double					distance_2d(t_coord p1, t_coord p2);
-double					dmin_to_grp(t_coord pnt, t_coord *grp);
-int						is_skinpnt(t_coord pnt, t_plateau *plt);
-int						is_ennemi(char c, char pl);
-void					delete_crdlist(t_coord *list);
-void					delete_skin(t_skin *list);
-void					delete_map(char **map, int size);
-void					delete_plt(t_plateau **plt);
-t_coord					*new_crdlist(int x, int y);
-void					crdlist_pushback(t_coord **list, t_coord *elem);
-void					delete_map(char **map, int size);
-t_dir					invert_dir(t_dir dir);
-t_dir					get_ldir(t_skin pnt, t_dir cdir);
-t_dir					get_cdir(t_skin pnt, t_coord size);
-void					skin_pushback(t_skin **skin, t_coord pnt, \
-														t_plateau plt);
-void					skin_pushfront(t_skin **skin, t_coord pnt, \
-														t_plateau plt);
-t_skin					*new_skin_pnt(t_coord pnt, t_plateau plt);
+typedef struct		s_skin
+{
+	t_coord			crd;
+	t_dir			dir;
+	t_mark			mark;
+	int				sight;
+	struct s_skin	*next;
+	struct s_skin	*prev;
+}					t_skin;
+
+typedef struct		s_square
+{
+	int				n;
+	int				s;
+	int				e;
+	int				w;
+}					t_square;
+
+typedef struct		s_ennemi
+{
+	t_skin			*skin;
+	t_coord			epos;
+	t_mark			mark;
+	t_square		sqr;
+}					t_ennemi;
+
+typedef struct		s_piece
+{
+	t_coord			size;
+	t_coord			offset;
+	t_coord			*crd;
+}					t_piece;
+
+typedef struct		s_plateau
+{
+	char			pl;
+	char			**pmap;
+	char			**map;
+	t_coord			size;
+	t_coord			ctr;
+	t_piece			pce;
+	t_coord			*pos;
+}					t_plateau;
+
+/*
+** end structures
+*/
+
+/*
+** functions:
+*/
+
+void				printlist(t_coord *list, char *name);
+/*
+** get_plateau.c
+*/
+t_plateau			*get_plt(t_plateau **p, char *buff, char pl);
+
+/*
+** read.c
+*/
+char				**read_map(t_coord size);
+t_piece				read_piece(void);
+t_coord				get_size(char *buff);
+
+/*
+** coord_list.c
+*/
+t_coord				*new_crdlist(int x, int y);
+void				crdlist_pushback(t_coord **list, t_coord *elem);
+int					is_inlist(int x, int y, t_coord *list);
+
+/*
+** get_ennemi.c
+*/
+t_ennemi			*get_ennemi(t_ennemi **e, t_plateau *p);
+
+/*
+** get_square.c
+*/
+t_square			get_square(t_plateau p);
+
+/*
+** get_skin.c
+*/
+void				get_skin(t_plateau p, t_ennemi *e);
+int					is_skin(t_coord pos, t_skin *list);
+
+/*
+** skin_list.c
+*/
+void				skin_pushback(t_skin **skin, t_coord pnt, t_plateau p);
+
+/*
+** find_dir.c
+*/
+t_dir				find_dir(t_coord pnt, t_plateau p);
+
+/*
+** skin_tests.c
+*/
+int					is_inhole(t_coord p, t_plateau plt);
+int					is_corner(t_coord pos, t_plateau p);
+int					is_atwall(t_coord pos, t_plateau p);
+int					is_ennemi(char c, char pl);
+
+/*
+** is_surface.c
+*/
+int					is_surface(t_coord p, t_plateau plt);
+
+/*
+** is_insight.c
+*/
+int					is_insight(t_skin pos, t_plateau p);
+void				set_args(t_skin pos, t_plateau p, t_args *ag);
+
+/*
+** player.c
+*/
+t_coord				player(t_plateau *p, t_ennemi *ennemi);
+t_coord				find_closest(t_coord *pnt, t_coord ref);
+
+/*
+** fill_area.c
+*/
+t_skin				fill_area(t_plateau p);
+
+/*
+** surround.c
+*/
+t_skin				surround_ennemi(t_plateau p, t_ennemi e, int *turn);
+
+/*
+** counter.c
+*/
+t_skin				counter_ennemi(t_ennemi e);
+
+/*
+** delete_ft.c
+*/
+void				delete_crdlist(t_coord *list);
+void				delete_skin(t_skin *list);
+void				delete_map(char **map, int size);
+void				delete_all(t_plateau **p, t_ennemi **e);
+void				delete_elem(int x, int y, t_coord **list);
+
+/*
+** distance.c
+*/
+int					dmin_to_wall(t_coord pnt, t_plateau p);
+double				dmin_to_skin(t_coord pnt, t_skin *grp);
+double				dmin_to_coord(t_coord pnt, t_coord *grp);
+double				distance_2d(t_coord p1, t_coord p2);
 
 
 #endif

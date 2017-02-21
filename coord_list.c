@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   crdlist.c                                          :+:      :+:    :+:   */
+/*   coord_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 16:20:20 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/27 16:50:49 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/21 16:27:41 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
-
-void			delete_crdlist(t_coord *list)
-{
-	if (list == NULL)
-		return ;
-	delete_crdlist(list->next);
-	free(list);
-}
 
 t_coord			*new_crdlist(int x, int y)
 {
@@ -44,4 +36,18 @@ void			crdlist_pushback(t_coord **list, t_coord *elem)
 			tmp = tmp->next;
 		tmp->next = elem;
 	}
+}
+
+int				is_inlist(int x, int y, t_coord *list)
+{
+	t_coord		*tmp;
+
+	tmp = list;
+	while (tmp != NULL)
+	{
+		if (x == tmp->x && y == tmp->y)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }

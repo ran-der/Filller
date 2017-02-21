@@ -6,15 +6,25 @@
 #    By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/03 18:53:21 by rvan-der          #+#    #+#              #
-#    Updated: 2016/12/22 21:59:43 by rvan-der         ###   ########.fr        #
+#    Updated: 2017/02/20 21:00:01 by rvan-der         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME = libft.a
 CC = gcc
 CFLAG = -c -Wall -Werror -Wextra
-SRC =	ft_memcmp.c \
+SRC =	ft_get_conv.c \
+		ft_write_conv.c \
+		ft_printf.c \
+		flag_tests.c \
+		ft_tools.c \
+		nbr_tools.c \
+		cvt_txt.c \
+		cvt_wtxt.c \
+		cvt_snbr.c \
+		cvt_unbr.c \
 		get_next_line.c \
+		ft_memcmp.c \
 		ft_memcat.c \
 		ft_realloc.c \
 		ft_putstr_fd.c \
@@ -83,7 +93,7 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(SRC)
 	$(CC) $(CFLAG) $(SRC)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
