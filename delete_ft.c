@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 18:00:27 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/21 15:50:23 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/23 19:52:20 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void		delete_map(char **map, int size)
 {
 	int		i;
 
-	if (map != NULL)
+	if (map != NULL && *map != NULL)
 	{
 		i = -1;
 		while (++i < size)
 			ft_strdel(&(map[i]));
 		free(map);
-		*map = NULL;
+		map = NULL;
 	}
 }
 
@@ -54,38 +54,40 @@ void			delete_elem(int x, int y, t_coord **list)
 	}
 }
 
-void		delete_crdlist(t_coord *list)
+void		delete_crdlist(t_coord **list)
 {
-	if (list != NULL)
+	t_coord		*tmp;
+	t_coord		*nxt;
+
+	if (list == NULL || (tmp = *list) == NULL)
+		return ;
+	while (tmp->next != NULL)
 	{
-		delete_crdlist(list->next);
-		free(list);
+		nxt = tmp->next;
+		free(tmp);
+		tmp = nxt;
 	}
+	*list = NULL;
 }
 
-void		delete_skin(t_skin *list)
+void		delete_skin(t_skin **list)
 {
-	if (list != NULL)
+	t_skin		*tmp;
+	t_skin		*nxt;
+
+	if (list == NULL || (tmp = *list) == NULL)
+		return ;
+	while (tmp->next != NULL)
 	{
-		delete_skin(list->next);
-		free(list);
+		nxt = tmp->next;
+		free(tmp);
+		tmp = nxt;
 	}
+	*list = NULL;
 }
 
-void		delete_all(t_plateau **p, t_ennemi **e)
+void		delete_all(t_plateau p, t_ennemi e)
 {
-	if (*p != NULL)
-	{
-		delete_map((*p)->map, ((*p)->size).y);
-		delete_map((*p)->map, ((*p)->size).y);
-		delete_crdlist((*p)->pos);
-		free(*p);
-		*p = NULL;
-	}
-	if (*e != NULL)
-	{
-		delete_skin((*e)->skin);
-		free(*e);
-		*e = NULL;
-	}
+	delete_crdlist(&(p.pos));
+	delete_skin(&(e.skin));
 }

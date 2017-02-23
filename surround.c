@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:29:52 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/20 19:40:55 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/23 18:04:29 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		wall_blocked(t_skin pos, t_plateau p, t_ennemi e)
 }
 */
 
-t_skin		surround_ennemi(t_plateau p, t_ennemi e, int *turn)
+t_skin		surround_ennemi(t_plateau p, t_ennemi e)
 {
 	t_skin		*edge1;
 	t_skin		*edge2;
@@ -65,11 +65,10 @@ t_skin		surround_ennemi(t_plateau p, t_ennemi e, int *turn)
 	edge2 = find_edge2(edge1);
 	dmin1 = dmin_to_wall(edge1->crd, p);
 	dmin2 = dmin_to_wall(edge2->crd, p);
-	(*turn)++;
 	if (edge1 == edge2 || (edge2->next)->mark == atwallo)
 		return (*edge1);
-	if ((edge1->prev)->mark != atwallo &&
-			(*turn <= lim ? (dmin1 < dmin2) : (dmin1 >= dmin2)))
+	if ((edge1->prev)->mark != atwallo && dmin1 >= dmin2 && \
+			distance_2d(e.epos, edge2->crd) > 2)
 		return (*edge1);
 	return (*edge2);
 }

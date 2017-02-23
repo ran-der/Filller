@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 19:40:08 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/21 17:05:53 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/23 19:58:19 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void		print_map_skin(char **map, t_coord size, t_ennemi e)
 		while (x < size.x)
 		{
 			if (draw_if_skin(x, y, e.skin))
-				printf("%c", map[y][x]);
+				dprintf(2, "%c", map[y][x]);
 			x++;
 		}
-		printf("\n");
+		dprintf(2, "\n");
 	}
 }
 
@@ -75,45 +75,51 @@ void		print_map(char **map, int size)
 {
 	int		i;
 
-	printf("MAP (size = %i):\n", size);
+	dprintf(2, "MAP (size = %i):\n", size);
 	if (map == NULL || *map == NULL)
 		write(1, "NULL\n", 5);
 	else
 	{
 		i = -1;
 		while (++i < size)
-			printf("%03i%s\n", i, map[i]);
+			dprintf(2, "%03i%s\n", i, map[i]);
 	}
 }
 
-int			main(void)
+t_info				*init_global(char c)
 {
-	char		*buff;
-	char		pl;
-	t_plateau	*plateau;
-	t_ennemi	*ennemi;
+	t_info			*ret;
+
+	ret = (t_info*)malloc(sizeof(t_info));
+	ret->pl = (c == '1' ? 'O' : 'X');
+	ret->pmap = NULL;
+	return (ret);
+}
+
+int					main(void)
+{
+	char			*buff;
+	static t_info	*global = NULL;
+	t_plateau		plateau;
+	t_ennemi		ennemi;
+	t_coord			ret;
 	
-	plateau = NULL;
-	ennemi = NULL;
 	while (get_next_line(0, &buff))
 	{
 		if (!ft_strncmp(buff, "$$$ exec p", 10))
-			pl = (*(buff + 10) == '1' ? 'O' : 'X');
+			global = init_global(*(buff + 10));
 		else if (!ft_strncmp(buff, "Plateau ", 8))
 		{
-			plateau = get_plt(&plateau, buff, pl);
-			ennemi = get_ennemi(&ennemi, plateau);
-			//((ennemi->skin)->prev)->next = NULL;
-			//print_map_skin(plateau->map, plateau->size, *ennemi);
-			//((ennemi->skin)->prev)->next = ennemi->skin;
-			if((player(plateau, ennemi)).x == -1000)
-			{
-				delete_all(&plateau, &ennemi);
-				free(buff);
-				return (0);
-			}
+			plateau = get_plt(buff, global->pl);
+			ret = play(plateau, (ennemi = get_ennemi(plateau, global->pmap)));
+			delete_map(global->pmap, (plateau.size).y);
+			global->pmap = (ret.x == -3 && ret.y == -3 ? NULL : plateau.map);
+			delete_all(plateau, ennemi);
+			ft_printf("%d %d\n", ret.y, ret.x);
 		}
 		free(buff);
 	}
+	if (global->pmap == NULL)
+		free(global);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 06:22:29 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/21 13:02:23 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/23 19:37:05 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ typedef struct		s_args
 	t_coord			pnt;
 }					t_args;
 
+typedef struct		s_info
+{
+	char			pl;
+	char			**pmap;
+}					t_info;
+
 typedef struct		s_skin
 {
 	t_coord			crd;
@@ -111,7 +117,6 @@ typedef struct		s_piece
 typedef struct		s_plateau
 {
 	char			pl;
-	char			**pmap;
 	char			**map;
 	t_coord			size;
 	t_coord			ctr;
@@ -131,7 +136,7 @@ void				printlist(t_coord *list, char *name);
 /*
 ** get_plateau.c
 */
-t_plateau			*get_plt(t_plateau **p, char *buff, char pl);
+t_plateau			get_plt(char *buff, char pl);
 
 /*
 ** read.c
@@ -150,7 +155,7 @@ int					is_inlist(int x, int y, t_coord *list);
 /*
 ** get_ennemi.c
 */
-t_ennemi			*get_ennemi(t_ennemi **e, t_plateau *p);
+t_ennemi			get_ennemi(t_plateau p, char **pmap);
 
 /*
 ** get_square.c
@@ -193,10 +198,9 @@ int					is_insight(t_skin pos, t_plateau p);
 void				set_args(t_skin pos, t_plateau p, t_args *ag);
 
 /*
-** player.c
+** play.c
 */
-t_coord				player(t_plateau *p, t_ennemi *ennemi);
-t_coord				find_closest(t_coord *pnt, t_coord ref);
+t_coord				play(t_plateau p, t_ennemi e);
 
 /*
 ** fill_area.c
@@ -206,7 +210,7 @@ t_skin				fill_area(t_plateau p);
 /*
 ** surround.c
 */
-t_skin				surround_ennemi(t_plateau p, t_ennemi e, int *turn);
+t_skin				surround_ennemi(t_plateau p, t_ennemi e);
 
 /*
 ** counter.c
@@ -216,10 +220,10 @@ t_skin				counter_ennemi(t_ennemi e);
 /*
 ** delete_ft.c
 */
-void				delete_crdlist(t_coord *list);
-void				delete_skin(t_skin *list);
+void				delete_crdlist(t_coord **list);
+void				delete_skin(t_skin **list);
 void				delete_map(char **map, int size);
-void				delete_all(t_plateau **p, t_ennemi **e);
+void				delete_all(t_plateau p, t_ennemi e);
 void				delete_elem(int x, int y, t_coord **list);
 
 /*
