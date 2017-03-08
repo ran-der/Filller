@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 16:11:29 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/23 19:18:29 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 16:39:19 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_mark			get_emark(t_skin *skin)
 }
 
 t_ennemi		get_ennemi(t_plateau p, char **pmap)
-{	
+{
 	t_skin		*tmp;
 	t_ennemi	ret;
 

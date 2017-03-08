@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 06:22:29 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/23 19:37:05 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 17:07:02 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FILLER_H
 # include "libft/libft.h"
 # include <string.h>
-# include <stdio.h>
 # include <sys/errno.h>
 # define MAX(a, b) (a >= b ? a : b)
 # define MIN(a, b) (a <= b ? a : b)
@@ -233,6 +232,5 @@ int					dmin_to_wall(t_coord pnt, t_plateau p);
 double				dmin_to_skin(t_coord pnt, t_skin *grp);
 double				dmin_to_coord(t_coord pnt, t_coord *grp);
 double				distance_2d(t_coord p1, t_coord p2);
-
 
 #endif

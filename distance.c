@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 05:34:05 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/21 16:57:57 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 16:32:48 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ double		dmin_to_skin(t_coord pnt, t_skin *grp)
 			dmin = (tmp < dmin ? tmp : dmin);
 			tmps = tmps->next;
 		}
-		dmin = (tmps != NULL && tmps != grp? 0 : dmin);
+		dmin = (tmps != NULL && tmps != grp ? 0 : dmin);
 	}
 	return (dmin);
 }
@@ -99,8 +99,10 @@ int			dmin_to_wall(t_coord pnt, t_plateau p)
 	int			dmin;
 	int			tmp;
 
-	dmin = (pnt.x> (tmp = (p.size).x - pnt.x - 1) ? tmp : pnt.x);
-	dmin = (dmin < (tmp = (p.size).y - pnt.y - 1) ? dmin : tmp);
+	tmp = (p.size).x - pnt.x - 1;
+	dmin = (pnt.x > tmp ? tmp : pnt.x);
+	tmp = (p.size).y - pnt.y - 1;
+	dmin = (dmin < tmp ? dmin : tmp);
 	dmin = (dmin < pnt.y ? dmin : pnt.y);
 	return (dmin);
 }

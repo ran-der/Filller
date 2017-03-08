@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 21:49:28 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/20 20:24:00 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 16:38:23 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	set_args(t_skin pos, t_plateau p, t_args *ag)
 		(ag->pnt).x = (pos.dir == W ? 0 : (p.size).x - 1);
 		(ag->pnt).y = (pos.crd).y;
 		while ((ag->pnt).y >= 0 && \
-				!is_ennemi((p.map)[(ag->pnt).y] [(ag->pnt).x + ag->dl], p.pl))
+				!is_ennemi((p.map)[(ag->pnt).y][(ag->pnt).x + ag->dl], p.pl))
 			((ag->pnt).y)--;
 	}
 	(ag->c) = (pos.dir == N || pos.dir == St ? &((ag->pnt).x) : &((ag->pnt).y));
@@ -77,7 +77,7 @@ int		is_insight(t_skin pos, t_plateau p)
 				return (1);
 			i += ag.dl;
 		}
-		*(ag.l) -= i;;
+		*(ag.l) -= i;
 	}
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   surround.c                                          :+:      :+:    :+:   */
+/*   surround.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:29:52 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/23 18:04:29 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 16:44:03 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,6 @@ t_skin		*find_edge2(t_skin *edge1)
 		ret = ret->next;
 	return (ret);
 }
-
-/*
-int		wall_blocked(t_skin pos, t_plateau p, t_ennemi e)
-{
-	t_args		ag;
-
-	set_args(pos, p, &ag);
-	*(ag.l) += ag.dl;
-	while (++(*(ag.c)) != ag.limc && \
-			!is_ennemi((p.map)[(ag.pnt).y][(ag.pnt).x], p.pl))
-		if ((p.map)[(ag.pnt).y][(ag.pnt).x] == p.pl)
-			return (1);
-	return (0);
-}
-*/
 
 t_skin		surround_ennemi(t_plateau p, t_ennemi e)
 {

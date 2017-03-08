@@ -6,7 +6,7 @@
 #    By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/11 14:44:06 by rvan-der          #+#    #+#              #
-#    Updated: 2017/02/23 20:03:43 by rvan-der         ###   ########.fr        #
+#    Updated: 2017/02/27 18:00:34 by rvan-der         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,13 +24,11 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-libraries:
-	make -C libft
-	mv libft/libft.a ./libft.a
 
-$(NAME): $(SRC) libraries
-	#$(CC) $(CFLAG) -c $(SRC)
-	$(CC) $(SRC) -L. -lft -o $(NAME)
+$(NAME): $(SRC)
+	make -C libft
+	$(CC) $(CFLAG) -c $(SRC)
+	$(CC) $(OBJ) -Llibft -lft -o $(NAME)
 
 clean:
 	make -C libft clean

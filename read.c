@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 02:56:49 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/21 12:55:35 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 16:36:57 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void			find_offset(t_piece *ret, char **piece, int size)
 {
 	int			x;
 	int			y;
-//	int			i;
 
 	(ret->offset).y = -1;
 	(ret->offset).x = -1;

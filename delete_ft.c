@@ -6,15 +6,15 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 18:00:27 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/23 19:52:20 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/27 16:33:25 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-void		delete_map(char **map, int size)
+void			delete_map(char **map, int size)
 {
-	int		i;
+	int			i;
 
 	if (map != NULL && *map != NULL)
 	{
@@ -54,7 +54,7 @@ void			delete_elem(int x, int y, t_coord **list)
 	}
 }
 
-void		delete_crdlist(t_coord **list)
+void			delete_crdlist(t_coord **list)
 {
 	t_coord		*tmp;
 	t_coord		*nxt;
@@ -70,7 +70,7 @@ void		delete_crdlist(t_coord **list)
 	*list = NULL;
 }
 
-void		delete_skin(t_skin **list)
+void			delete_skin(t_skin **list)
 {
 	t_skin		*tmp;
 	t_skin		*nxt;
@@ -86,7 +86,7 @@ void		delete_skin(t_skin **list)
 	*list = NULL;
 }
 
-void		delete_all(t_plateau p, t_ennemi e)
+void			delete_all(t_plateau p, t_ennemi e)
 {
 	delete_crdlist(&(p.pos));
 	delete_skin(&(e.skin));

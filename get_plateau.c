@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/26 02:08:51 by rvan-der          #+#    #+#             */
-/*   Updated: 2017/02/23 18:49:42 by rvan-der         ###   ########.fr       */
+/*   Updated: 2017/02/25 23:13:30 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,6 @@ t_coord			*get_allpos(t_plateau p)
 		}
 	}
 	return (ret);
-}
-
-void			printlist(t_coord *list, char *name)
-{
-	t_coord		*tmp;
-
-	printf("%s:\n X ; Y\n", name);
-	if ((tmp = list) == NULL)
-		printf("NULL\n");
-	while (tmp != NULL)
-	{
-		printf(" %d ; %d\n", tmp->x, tmp->y);
-		tmp = tmp->next;
-	}
 }
 
 t_plateau		get_plt(char *buff, char pl)
